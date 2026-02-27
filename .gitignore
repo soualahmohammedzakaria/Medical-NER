@@ -1,0 +1,53 @@
+# -------- Byte-compiled / optimized ----------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# -------- Distribution / packaging ----------
+build/
+dist/
+*.egg-info/
+*.egg
+
+# -------- Virtual environments ----------------
+.venv/
+venv/
+env/
+
+# -------- IDE / Editor ------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -------- OS ----------------------------------
+.DS_Store
+Thumbs.db
+
+# -------- Jupyter -----------------------------
+.ipynb_checkpoints/
+
+# -------- Data (large files) ------------------
+data/raw/*
+data/processed/*
+data/external/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/external/.gitkeep
+
+# -------- Outputs / Artifacts -----------------
+outputs/models/*
+outputs/logs/*
+outputs/figures/*
+!outputs/models/.gitkeep
+!outputs/logs/.gitkeep
+!outputs/figures/.gitkeep
+
+# -------- Secrets / credentials ---------------
+.env
+*.secret
+
+# -------- Misc --------------------------------
+wandb/
+mlruns/
+*.log

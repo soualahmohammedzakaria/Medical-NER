@@ -1,0 +1,45 @@
+# ----------------------------------------------
+# Medical-NER - master configuration
+# ----------------------------------------------
+
+project:
+  name: medical-ner
+  seed: 42
+
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  label_list:
+    - O
+    - B-Disease
+    - I-Disease
+    - B-Drug
+    - I-Drug
+    - B-Procedure
+    - I-Procedure
+  max_seq_length: 512
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+
+model:
+  name: bert-base-uncased          # HuggingFace model hub identifier
+  num_labels: 7                     # must match len(label_list)
+  dropout: 0.1
+
+training:
+  epochs: 10
+  batch_size: 16
+  learning_rate: 5.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  fp16: true
+  gradient_accumulation_steps: 1
+  output_dir: outputs/models
+  logging_dir: outputs/logs
+  save_strategy: epoch
+  evaluation_strategy: epoch
+
+inference:
+  device: auto                      # auto | cpu | cuda
+  batch_size: 32
