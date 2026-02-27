@@ -14,6 +14,16 @@ from datasets import DatasetDict, load_dataset
 from torch.utils.data import Dataset
 from transformers import AutoTokenizer, PreTrainedTokenizerFast
 
+# Base URL for the raw JSON splits hosted on the tner/bc5cdr HF repo.
+# We load these directly because newer versions of the datasets library
+# no longer support the custom loading script bundled in that repo.
+_BC5CDR_BASE = "https://huggingface.co/datasets/tner/bc5cdr/resolve/main/dataset"
+_BC5CDR_FILES = {
+    "train": f"{_BC5CDR_BASE}/train.json",
+    "validation": f"{_BC5CDR_BASE}/valid.json",
+    "test": f"{_BC5CDR_BASE}/test.json",
+}
+
 # ---- constants ----
 
 MODEL_NAME = "microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext"
@@ -103,15 +113,29 @@ def tokenize_and_align_labels(
 # Dataset loading helpers
 # ---------------------------------------------------------------------------
 
+def _load_bc5cdr_raw() -> DatasetDict:
+    """Download the raw BC5CDR splits from HuggingFace as JSON files.
+
+    The JSON files use column names "tokens" and "tags"; we rename
+    "tags" to "ner_tags" so the rest of the pipeline is consistent.
+    """
+    raw = load_dataset("json", data_files=_BC5CDR_FILES)
+
+    # The upstream JSON uses "tags" instead of "ner_tags"; normalise it.
+    if "tags" in raw["train"].column_names:
+        raw = raw.rename_column("tags", "ner_tags")
+    return raw
+
+
 def load_bc5cdr(
     tokenizer: PreTrainedTokenizerFast,
     max_length: int = 512,
 ) -> DatasetDict:
-    """Download BC5CDR from HuggingFace and return tokenized splits.
+    """Download BC5CDR and return tokenized splits.
 
-    The dataset is loaded via ``datasets.load_dataset("tner/bc5cdr")``.
-    Each split (train / validation / test) is tokenized in-place using
-    ``datasets.map`` with batched processing for speed.
+    Loads the raw JSON data files directly from the tner/bc5cdr repo
+    (avoids the deprecated custom loading script). Each split is then
+    tokenized with ``datasets.map`` using batched processing.
 
     Returns
     -------
@@ -119,7 +143,7 @@ def load_bc5cdr(
         Keys: "train", "validation", "test". Each split contains columns
         input_ids, attention_mask, labels (all List[int]).
     """
-    raw = load_dataset("tner/bc5cdr")
+    raw = _load_bc5cdr_raw()
 
     tokenized = raw.map(
         lambda batch: tokenize_and_align_labels(batch, tokenizer, max_length),
