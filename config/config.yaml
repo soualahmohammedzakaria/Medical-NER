@@ -23,7 +23,7 @@ data:
   test_split: 0.1
 
 model:
-  name: bert-base-uncased          # HuggingFace model hub identifier
+  name: microsoft/BiomedNLP-BiomedBERT-base-uncased-abstract-fulltext
   num_labels: 7                     # must match len(label_list)
   dropout: 0.1
 
