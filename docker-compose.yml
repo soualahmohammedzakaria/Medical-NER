@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  medical-ner-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medical-ner-api
+    ports:
+      - "8000:8000"
+    environment:
+      - CHECKPOINT_DIR=outputs/models/best
+      - DEVICE=cpu
+    volumes:
+      # Mount models dir so you can swap checkpoints without rebuilding
+      - ./outputs/models:/app/outputs/models:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
