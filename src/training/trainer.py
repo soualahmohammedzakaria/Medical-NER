@@ -17,6 +17,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Optional
 
+import torch
 from transformers import (
     EarlyStoppingCallback,
     Trainer,
@@ -110,42 +111,51 @@ def build_training_args(cfg: TrainConfig) -> TrainingArguments:
     # Decide on report_to depending on user preference.
     report_to = []
     if cfg.csv_log:
-        report_to.append("tensorboard")     # TensorBoard writes CSV-style events
+        report_to.append("tensorboard")
     if cfg.use_wandb:
         report_to.append("wandb")
     if not report_to:
         report_to = ["none"]
 
+    # Only enable fp16 when a CUDA GPU is actually available.
+    use_fp16 = cfg.fp16 and torch.cuda.is_available()
+
+    # Point TensorBoard at the logging directory via env var
+    # (logging_dir kwarg is deprecated in transformers >= 4.47).
+    if cfg.logging_dir:
+        os.environ["TENSORBOARD_LOGGING_DIR"] = cfg.logging_dir
+
     return TrainingArguments(
         output_dir=cfg.output_dir,
-        overwrite_output_dir=True,
 
         # training
         num_train_epochs=cfg.epochs,
         per_device_train_batch_size=cfg.batch_size,
         per_device_eval_batch_size=cfg.batch_size * 2,
         gradient_accumulation_steps=cfg.gradient_accumulation_steps,
-        fp16=cfg.fp16,
+        fp16=use_fp16,
 
         # optimiser / scheduler
         learning_rate=cfg.learning_rate,
         weight_decay=cfg.weight_decay,
         warmup_steps=cfg.warmup_steps,
-        optim="adamw_torch",              # explicit AdamW from PyTorch
+        optim="adamw_torch",
 
         # evaluation / checkpointing
         eval_strategy="epoch",
         save_strategy="epoch",
         save_total_limit=cfg.save_total_limit,
-        load_best_model_at_end=True,       # required for early stopping
-        metric_for_best_model="f1",        # watch entity-level F1
+        load_best_model_at_end=True,
+        metric_for_best_model="f1",
         greater_is_better=True,
 
         # logging
-        logging_dir=cfg.logging_dir,
         logging_steps=cfg.log_every_n_steps,
         report_to=report_to,
         run_name=cfg.wandb_project,
+
+        # data loading
+        dataloader_pin_memory=torch.cuda.is_available(),
 
         # reproducibility
         seed=cfg.seed,
@@ -169,6 +179,10 @@ def train(cfg: TrainConfig | None = None) -> Trainer:
 
     # seed all RNGs for reproducibility
     seed_everything(cfg.seed)
+
+    # suppress TensorFlow oneDNN info messages (irrelevant when using PyTorch)
+    os.environ.setdefault("TF_ENABLE_ONEDNN_OPTS", "0")
+    os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
 
     # optional W&B setup
     if cfg.use_wandb:
