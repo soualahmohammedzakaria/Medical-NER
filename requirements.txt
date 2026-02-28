@@ -15,8 +15,9 @@ onnx==1.15.0
 onnxruntime==1.17.1
 optimum==1.17.1
 
-# ---------- Serving (FastAPI) ---------------------
+# ---------- Serving (FastAPI / Flask) --------------
 fastapi==0.110.0
+flask==3.0.2
 uvicorn==0.27.1
 pydantic==2.6.3
 python-multipart==0.0.9
