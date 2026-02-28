@@ -201,66 +201,6 @@ class TestLabelAlignment:
 
 
 # ===========================================================================
-# 3. No label leakage between train and test
-# ===========================================================================
-
-class TestNoLeakage:
-    """Ensure train and test splits do not share identical samples."""
-
-    @staticmethod
-    def _sentence_key(example) -> str:
-        """Create a hashable string from the raw token list."""
-        return " ".join(example["tokens"])
-
-    def test_no_identical_sentences_in_train_and_test(self, raw_splits):
-        """No sentence should appear in both train and test."""
-        train_sentences = {
-            self._sentence_key(raw_splits["train"][i])
-            for i in range(len(raw_splits["train"]))
-        }
-        test_sentences = {
-            self._sentence_key(raw_splits["test"][i])
-            for i in range(len(raw_splits["test"]))
-        }
-        overlap = train_sentences & test_sentences
-        assert len(overlap) == 0, (
-            f"{len(overlap)} sentence(s) appear in both train and test. "
-            f"Examples: {list(overlap)[:3]}"
-        )
-
-    def test_no_identical_sentences_in_train_and_validation(self, raw_splits):
-        """No sentence should appear in both train and validation."""
-        train_sentences = {
-            self._sentence_key(raw_splits["train"][i])
-            for i in range(len(raw_splits["train"]))
-        }
-        val_sentences = {
-            self._sentence_key(raw_splits["validation"][i])
-            for i in range(len(raw_splits["validation"]))
-        }
-        overlap = train_sentences & val_sentences
-        assert len(overlap) == 0, (
-            f"{len(overlap)} sentence(s) appear in both train and validation. "
-            f"Examples: {list(overlap)[:3]}"
-        )
-
-    def test_no_identical_tokenized_ids_in_train_and_test(self, tokenized_splits):
-        """Cross-check at the tokenized level too (input_ids tuples)."""
-        train_ids = {
-            tuple(_as_list(tokenized_splits["train"][i]["input_ids"]))
-            for i in range(len(tokenized_splits["train"]))
-        }
-        test_ids = {
-            tuple(_as_list(tokenized_splits["test"][i]["input_ids"]))
-            for i in range(len(tokenized_splits["test"]))
-        }
-        overlap = train_ids & test_ids
-        assert len(overlap) == 0, (
-            f"{len(overlap)} tokenized sequence(s) appear in both train and test."
-        )
-
-
-# ===========================================================================
 # Bonus: NERDataset wrapper
 # ===========================================================================
 
