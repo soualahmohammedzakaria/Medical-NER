@@ -39,9 +39,11 @@ data/external/*
 outputs/models/*
 outputs/logs/*
 outputs/figures/*
+outputs/results/*
 !outputs/models/.gitkeep
 !outputs/logs/.gitkeep
 !outputs/figures/.gitkeep
+!outputs/results/.gitkeep
 
 # -------- Secrets / credentials ---------------
 .env
