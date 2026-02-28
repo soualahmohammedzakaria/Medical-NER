@@ -40,10 +40,12 @@ outputs/models/*
 outputs/logs/*
 outputs/figures/*
 outputs/results/*
+outputs/onnx/*
 !outputs/models/.gitkeep
 !outputs/logs/.gitkeep
 !outputs/figures/.gitkeep
 !outputs/results/.gitkeep
+!outputs/onnx/.gitkeep
 
 # -------- Secrets / credentials ---------------
 .env

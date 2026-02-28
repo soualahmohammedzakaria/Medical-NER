@@ -14,6 +14,7 @@ safetensors==0.4.2
 onnx==1.15.0
 onnxruntime==1.17.1
 optimum==1.17.1
+onnxscript==0.1.0
 
 # ---------- Serving (FastAPI / Flask) --------------
 fastapi==0.110.0
