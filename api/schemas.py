@@ -8,7 +8,14 @@ from __future__ import annotations
 
 from typing import List
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
+
+
+# ---------------------------------------------------------------------------
+# Constraints
+# ---------------------------------------------------------------------------
+
+MAX_TEXT_LENGTH = 10_000   # chars -- reject overly long inputs early
 
 
 # ---------------------------------------------------------------------------
@@ -21,9 +28,20 @@ class PredictRequest(BaseModel):
     text: str = Field(
         ...,
         min_length=1,
+        max_length=MAX_TEXT_LENGTH,
         description="Raw clinical / biomedical text to analyse.",
-        json_schema_extra={"example": "Aspirin can reduce the risk of heart disease."},
+        json_schema_extra={
+            "example": "Aspirin can reduce the risk of heart disease.",
+        },
     )
+
+    @model_validator(mode="after")
+    def strip_text(self) -> "PredictRequest":
+        """Remove leading / trailing whitespace."""
+        self.text = self.text.strip()
+        if not self.text:
+            raise ValueError("text must not be blank after stripping whitespace.")
+        return self
 
 
 # ---------------------------------------------------------------------------
@@ -64,3 +82,14 @@ class PredictResponse(BaseModel):
         default_factory=list,
         description="List of detected entity spans.",
     )
+
+
+# ---------------------------------------------------------------------------
+# Error
+# ---------------------------------------------------------------------------
+
+class ErrorResponse(BaseModel):
+    """Standard error envelope returned by all error handlers."""
+
+    error: str = Field(..., description="Short error code.")
+    message: str = Field(..., description="Human-readable detail.")
