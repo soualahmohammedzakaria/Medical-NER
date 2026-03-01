@@ -26,7 +26,8 @@ COPY setup.py .
 # Copy model checkpoint (must exist before building)
 COPY outputs/models/best/ outputs/models/best/
 
-EXPOSE 8000
+# HF Spaces requires port 7860
+EXPOSE 7860
 
-# Run the Flask app on port 8000
-CMD ["python", "-m", "api.main", "--host", "0.0.0.0", "--port", "8000"]
+# Run the Flask app on port 7860
+CMD ["python", "-m", "api.main", "--host", "0.0.0.0", "--port", "7860"]
