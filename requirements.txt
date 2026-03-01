@@ -59,4 +59,3 @@ mypy==1.8.0
 
 # ---------- Additional dependencies from environment.yml ----------
 torchvision==0.17.1
-pytorch-cuda==11.8
