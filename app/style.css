@@ -350,6 +350,17 @@ body {
   font-size: 0.7rem;
 }
 
+/* ---- Info Banner ---- */
+.info-banner {
+  background: var(--primary-light);
+  border: 1.5px solid #b3d4ea;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  color: var(--primary-dark);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
 /* ---- Error Banner ---- */
 .error-banner {
   background: #fef2f2;
