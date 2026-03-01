@@ -1,0 +1,21 @@
+# ---------------------------------------------------
+# Medical-NER API - minimal dependencies for deployment
+# ---------------------------------------------------
+
+# ---------- Deep Learning / Transformers ----------
+torch==2.2.1
+transformers==4.38.2
+tokenizers==0.15.2
+safetensors==0.4.2
+
+# ---------- Serving (Flask) -----------------------
+flask==3.0.2
+flask-cors==4.0.0
+flask-limiter==3.5.1
+pydantic==2.6.3
+
+# ---------- Config --------------------------------
+pyyaml==6.0.1
+
+# ---------- Data ----------------------------------
+numpy==1.26.4
