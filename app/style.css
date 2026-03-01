@@ -1,0 +1,409 @@
+/* ==========================================================
+   Medical NER – Stylesheet
+   Primary colour:  #00619b
+   Font:            Poppins
+   ========================================================== */
+
+/* ---- Reset & Base ---- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #00619b;
+  --primary-light: #e5f1f8;
+  --primary-dark: #004a76;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --bg: #f1f5f9;
+  --card-bg: #ffffff;
+  --border: #e2e8f0;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --transition: 0.2s ease;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+}
+
+/* ---- Header ---- */
+.header {
+  background: var(--primary);
+  color: #fff;
+  padding: 2rem 1.5rem 1.6rem;
+  text-align: center;
+}
+
+.header__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+
+.header__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.header__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.header__subtitle {
+  font-size: 0.95rem;
+  font-weight: 300;
+  opacity: 0.85;
+}
+
+/* ---- Main ---- */
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 780px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ---- Card ---- */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.8rem;
+}
+
+.card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+/* ---- Upload Area ---- */
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+  margin-bottom: 1.2rem;
+}
+
+.upload-area:hover,
+.upload-area.drag-over {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.upload-area__icon {
+  width: 36px;
+  height: 36px;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.upload-area__text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.upload-area__link {
+  color: var(--primary);
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.upload-area__hint {
+  font-size: 0.8rem;
+  color: var(--primary);
+  font-weight: 500;
+  margin-top: 0.4rem;
+  min-height: 1.2em;
+}
+
+/* ---- Label & Textarea ---- */
+.label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.textarea {
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  resize: vertical;
+  transition: border-color var(--transition);
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 97, 155, 0.12);
+}
+
+/* ---- Buttons ---- */
+.actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.65rem 1.6rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn--primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn--primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+}
+
+.btn--ghost:hover {
+  border-color: var(--text-muted);
+}
+
+/* Loader spinner */
+.btn__loader {
+  width: 16px;
+  height: 16px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Annotated Text ---- */
+.annotated-text {
+  font-size: 0.95rem;
+  line-height: 1.9;
+  padding: 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: #fafbfc;
+  margin-bottom: 1.2rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Entity highlight colours */
+.entity-tag {
+  display: inline;
+  padding: 0.15em 0.45em;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.88rem;
+  position: relative;
+}
+
+.entity-tag__label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  vertical-align: super;
+  margin-left: 0.2em;
+  opacity: 0.85;
+}
+
+/* Disease */
+.entity-tag--disease {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Chemical / Drug */
+.entity-tag--chemical {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+/* Gene / Protein */
+.entity-tag--gene,
+.entity-tag--protein {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* Species */
+.entity-tag--species {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+/* Mutation */
+.entity-tag--mutation {
+  background: #f3e8ff;
+  color: #6b21a8;
+}
+
+/* Cell line / Cell type */
+.entity-tag--cell_line,
+.entity-tag--cell_type,
+.entity-tag--cell {
+  background: #ffe4e6;
+  color: #9f1239;
+}
+
+/* DNA / RNA */
+.entity-tag--dna,
+.entity-tag--rna {
+  background: #e0f2fe;
+  color: #0c4a6e;
+}
+
+/* Fallback */
+.entity-tag--other {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+/* ---- Entity Summary ---- */
+.entity-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.entity-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.entity-badge__count {
+  background: rgba(0, 0, 0, 0.1);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+}
+
+/* ---- Error Banner ---- */
+.error-banner {
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  color: #991b1b;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.error-banner[hidden] {
+  display: none;
+}
+
+.error-banner__close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #991b1b;
+  padding: 0 0.3rem;
+}
+
+/* ---- Footer ---- */
+.footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .header {
+    padding: 1.4rem 1rem 1.2rem;
+  }
+
+  .header__title {
+    font-size: 1.3rem;
+  }
+
+  .card {
+    padding: 1.2rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
