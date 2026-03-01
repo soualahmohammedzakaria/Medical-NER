@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical NER</title>
+  <link rel="icon" href="assets/icon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header__brand">
+      <img src="assets/icon.png" alt="Medical NER" class="header__icon" />
+      <h1 class="header__title">Medical NER</h1>
+    </div>
+    <p class="header__subtitle">Detect biomedical entities in clinical text</p>
+  </header>
+
+  <main class="main">
+    <!-- Error banner -->
+    <div class="error-banner" id="errorBanner" hidden>
+      <p id="errorMessage"></p>
+      <button class="error-banner__close" id="errorClose">&times;</button>
+    </div>
+
+    <!-- Input section -->
+    <section class="card">
+      <h2 class="card__title">Input</h2>
+
+      <!-- File upload -->
+      <div class="upload-area" id="uploadArea">
+        <input type="file" id="fileInput" accept=".txt,.pdf" hidden />
+        <svg class="upload-area__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <p class="upload-area__text">
+          Drag &amp; drop a <strong>.txt</strong> or <strong>.pdf</strong> file here, or <span class="upload-area__link">browse</span>
+        </p>
+        <p class="upload-area__hint" id="fileName"></p>
+      </div>
+
+      <!-- Text input -->
+      <label for="textInput" class="label">Or type / paste text below</label>
+      <textarea
+        id="textInput"
+        class="textarea"
+        rows="8"
+        placeholder="e.g. Patient was prescribed 500mg of Amoxicillin for bacterial infection."
+      ></textarea>
+
+      <div class="actions">
+        <button id="analyzeBtn" class="btn btn--primary">
+          <span class="btn__text">Analyze</span>
+          <span class="btn__loader" hidden></span>
+        </button>
+        <button id="clearBtn" class="btn btn--ghost">Clear</button>
+        <button id="exampleBtn" class="btn btn--ghost">Try Example</button>
+      </div>
+    </section>
+
+    <!-- Results section -->
+    <section class="card" id="resultsCard" hidden>
+      <h2 class="card__title">Results</h2>
+
+      <!-- Annotated text -->
+      <div class="annotated-text" id="annotatedText"></div>
+
+      <!-- Entity list -->
+      <div class="entity-summary" id="entitySummary"></div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 Medical NER — Soualah Mohammed Zakaria et al.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
