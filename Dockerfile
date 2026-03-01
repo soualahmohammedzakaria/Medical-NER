@@ -24,8 +24,9 @@ COPY src/     src/
 COPY api/     api/
 COPY setup.py .
 
-# Copy model checkpoint (must exist before building)
-COPY outputs/models/best/ outputs/models/best/
+# Download model from HuggingFace Hub (avoids Git LFS issues)
+RUN pip install --no-cache-dir huggingface_hub && \
+    python -c "from huggingface_hub import snapshot_download; snapshot_download('zaky17/medical-ner-model', local_dir='outputs/models/best/')"
 
 ENV PORT=8000
 EXPOSE 8000
