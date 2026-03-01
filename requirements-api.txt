@@ -3,7 +3,7 @@
 # ---------------------------------------------------
 
 # ---------- Deep Learning / Transformers ----------
-torch==2.2.1
+# torch is installed separately with CPU-only build (see Dockerfile)
 transformers==4.38.2
 tokenizers==0.15.2
 safetensors==0.4.2
