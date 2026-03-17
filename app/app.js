@@ -2,7 +2,7 @@
    Medical NER – Application Logic
    ========================================================== */
 
-const API_URL = "https://medical-ner-production.up.railway.app";
+const API_URL = "https://84.235.226.37:8000";
 
 // ---- DOM refs ----
 const textInput     = document.getElementById("textInput");
