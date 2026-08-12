@@ -2,7 +2,7 @@
    Medical NER – Application Logic
    ========================================================== */
 
-const API_URL = "https://erp-clinic.58wilaya.com/ai";
+const API_URL = "https://dummyaddress.com/ai";
 
 // ---- DOM refs ----
 const textInput     = document.getElementById("textInput");
